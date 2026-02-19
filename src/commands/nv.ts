@@ -1,6 +1,6 @@
-import { world, ChatSendBeforeEvent } from "@minecraft/server";
+import { ChatSendBeforeEvent } from "@minecraft/server";
 
-export default function execute(data: ChatSendBeforeEvent) {
+export default function execute(data: ChatSendBeforeEvent): void {
     data.sender.addEffect("night_vision", 20000000, {
         amplifier: 255,
         showParticles: false

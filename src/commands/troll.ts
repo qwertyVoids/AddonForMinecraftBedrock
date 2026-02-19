@@ -1,6 +1,6 @@
 import { world, Player, ChatSendBeforeEvent } from "@minecraft/server";
 
-export default function execute(data: ChatSendBeforeEvent) {
+export default function execute(data: ChatSendBeforeEvent): void {
     const args: string[] = data.message.split(" ");
     if (args.length < 2) {
         data.sender.sendMessage("<Войд> Вы не правильно используете команду! Синтаксис: !troll <ник>");

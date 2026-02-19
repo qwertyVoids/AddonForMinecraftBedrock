@@ -19,13 +19,13 @@
             "type": "script",
             "uuid": "97198909-9332-46b1-b1c5-03e941404778",
             "version": [1, 1, 0],
-            "entry": "dist/main.js"
+            "entry": "scripts/main.js"
         }
     ],
     "dependencies": [
         {
           "module_name": "@minecraft/server",
-          "version": "2.7.0-beta"
+          "version": "2.3.0-beta"
         }
     ]
 }

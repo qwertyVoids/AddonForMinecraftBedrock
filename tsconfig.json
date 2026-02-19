@@ -5,12 +5,13 @@
     "moduleResolution": "node",
     "lib": ["ES2020"],
     "strict": true,
-    "rootDir": "./scripts",
-    "outDir": "./dist",
+    "rootDir": "src",
+    "outDir": "scripts",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "types": ["@minecraft/server"]
   },
-  "include": ["scripts/**/*"]
+  "include": ["src/**/*"]
 }
