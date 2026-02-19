@@ -1,8 +1,8 @@
 {
     "format_version": 2,
     "header": {
-      "description": "§eКоманды от §cВеликого §f| §aВерсия: 1.1.0",
-      "name": "Plugin by Void10100",
+      "description": "§eКоманды от §cВойда §f| §aВерсия: 1.1.0",
+      "name": "Commands by Void10100",
       "uuid":"b2a5b342-cb47-4171-93a3-4d7c5a8e417e",
       "version": [1, 1, 0],
       "min_engine_version": [1, 21, 0]
@@ -19,13 +19,13 @@
             "type": "script",
             "uuid": "97198909-9332-46b1-b1c5-03e941404778",
             "version": [1, 1, 0],
-            "entry": "scripts/main.js"
+            "entry": "dist/main.js"
         }
     ],
     "dependencies": [
         {
           "module_name": "@minecraft/server",
-          "version": "1.13.0"
+          "version": "2.7.0-beta"
         }
     ]
 }
