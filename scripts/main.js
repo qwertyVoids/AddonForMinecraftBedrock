@@ -5,7 +5,7 @@ world.beforeEvents.chatSend.subscribe((eventData) => {
         eventData.cancel = true;
         const args = eventData.message.split(" ");
         const command = args[0].substring(1);
-        const execute = Commands[command];
+        const execute = Commands[command.toLowerCase()];
         if (execute) {
             system.run(() => {
                 execute(eventData);
