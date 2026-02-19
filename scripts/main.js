@@ -4,10 +4,11 @@ world.beforeEvents.chatSend.subscribe((eventData) => {
     if (eventData.message.startsWith("!")) {
         eventData.cancel = true;
         const args = eventData.message.split(" ");
-        const command = args[0].substring(1);
-        const execute = Commands[command.toLowerCase()];
-        if (execute) {
+        const commandName = args[0].substring(1);
+        const commandData = Commands[commandName.toLowerCase()];
+        if (commandData && commandData.execute) {
             system.run(() => {
+                const execute = commandData.execute;
                 execute(eventData);
             });
         }
