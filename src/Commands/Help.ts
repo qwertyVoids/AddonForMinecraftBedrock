@@ -1,19 +1,19 @@
 import Command from "../Classes/Command";
+import { ChatSendBeforeEvent } from "@minecraft/server";
 import { Commands } from "../CommandRegistry";
 import { AliasesCommand } from "./Aliases";
+
 export class HelpCommand extends Command {
-    constructor() {
-        super(...arguments);
-        this.name = "Help";
-        this.commandName = "help";
-        this.description = "Выводит все команды, предоставляемые плагином";
-        this.replyMessage = "";
-        this.adminRequired = false;
-        this.aliases = ["h", "sos", "commands", "cmds", "cmd"];
-    }
-    execute(data) {
-        let commandList = "";
-        let commandCount = 0;
+    public readonly name: string = "Help";
+    public readonly commandName: string = "help";
+    public readonly description: string = "Выводит все команды, предоставляемые плагином";
+    protected readonly replyMessage: string = "";
+    public readonly adminRequired: boolean = false;
+    public readonly aliases: string[] = ["h", "sos", "commands", "cmds", "cmd"];
+
+    public execute(data: ChatSendBeforeEvent): void {
+        let commandList: string = "";
+        let commandCount: number = 0;
         for (const [key, instance] of Object.entries(Commands)) {
             if (key === instance.commandName) {
                 commandList += `\n\n!${key}: ${instance.description};`;

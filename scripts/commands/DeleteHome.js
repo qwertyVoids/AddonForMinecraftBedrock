@@ -1,15 +1,14 @@
-import { world } from "@minecraft/server";
 import Command from "../Classes/Command";
 import { SetHomeCommand } from "./SetHome";
-export class HomeCommand extends Command {
+export class DeleteHomeCommand extends Command {
     constructor() {
         super(...arguments);
-        this.name = "Home";
-        this.commandName = "home";
-        this.description = "Телепортирует в точку дома";
-        this.replyMessage = "Вы телепортированы в точку дома!";
+        this.name = "Delete Home";
+        this.commandName = "deletehome";
+        this.description = "Удаляет точку дома";
+        this.replyMessage = "Точка дома успешно удалена!";
         this.adminRequired = false;
-        this.aliases = ["h", "tph", "tphome", "teleporthome"];
+        this.aliases = ["delhome", "dhome", "deleteh"];
         this.arguments = ["название"];
     }
     execute(data) {
@@ -25,8 +24,7 @@ export class HomeCommand extends Command {
                 this.error(player, "Такой точки не существует!");
             }
             else {
-                const home = homes[homeName];
-                player.teleport(home.location, { dimension: world.getDimension(home.dimension) });
+                this.deleteHome(player, homeName);
                 this.reply(player);
             }
         }

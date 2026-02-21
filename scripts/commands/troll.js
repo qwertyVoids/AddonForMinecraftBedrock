@@ -1,20 +1,35 @@
+import Command from "../Classes/Command";
 import { world } from "@minecraft/server";
-export default function execute(data) {
-    const args = data.message.split(" ");
-    if (args.length < 2) {
-        data.sender.sendMessage("<Войд> Вы не правильно используете команду! Синтаксис: !troll <ник>");
+export class TrollCommand extends Command {
+    constructor() {
+        super(...arguments);
+        this.name = "Troll";
+        this.commandName = "troll";
+        this.description = "Подкидывает игрока высоко вверх. Требует ник игрока в качестве аргумента (например, !troll Void10100)";
+        this.replyMessage = "Вы только что запустили игрока в воздух!";
+        this.adminRequired = true;
+        this.aliases = ["t", "troll"];
+        this.arguments = ["ник"];
     }
-    else {
-        const player = world.getPlayers({ name: args[1] })[0];
-        if (player) {
-            player.addEffect("levitation", 20, {
+    execute(data) {
+        const input = data.message;
+        const player = data.sender;
+        const startIndex = input.indexOf(" ");
+        if (startIndex === -1) {
+            this.error(player);
+            return;
+        }
+        const name = input.substring(startIndex + 1);
+        const target = world.getPlayers({ name: name })[0];
+        if (target) {
+            target.addEffect("levitation", 20, {
                 amplifier: 50,
                 showParticles: false
             });
-            data.sender.sendMessage("<Войд> Вы только что запустили игрока в воздух!");
+            this.reply(player);
         }
         else {
-            data.sender.sendMessage("<Войд> Вы не правильно ввели ник игрока!");
+            this.error(player, "Вы не правильно ввели ник игрока!");
         }
     }
 }

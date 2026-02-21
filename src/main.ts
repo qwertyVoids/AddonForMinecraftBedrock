@@ -1,17 +1,17 @@
-import { system, world, ChatSendBeforeEvent } from "@minecraft/server";
+import * as server from "@minecraft/server";
 import { Commands } from "./CommandRegistry";
-import CommandInformation from "./interfaces/CommandInformation";
+import Command from "./Classes/Command";
 
-world.beforeEvents.chatSend.subscribe((eventData: ChatSendBeforeEvent): void => {
+server.world.beforeEvents.chatSend.subscribe((eventData: server.ChatSendBeforeEvent): void => {
     if (eventData.message.startsWith("!")) {
         eventData.cancel = true;
 
         const args: string[] = eventData.message.split(" ");
         const commandName: string = args[0].substring(1);
-        const commandData: CommandInformation = Commands[commandName.toLowerCase()];
+        const commandData: Command = Commands[commandName.toLowerCase()];
         if (commandData && commandData.execute) {
-            system.run((): void => {
-                const execute: (data: ChatSendBeforeEvent) => void = commandData.execute;
+            server.system.run((): void => {
+                const execute: (data: server.ChatSendBeforeEvent) => void = commandData.execute;
                 execute(eventData);
             });
         } else {
