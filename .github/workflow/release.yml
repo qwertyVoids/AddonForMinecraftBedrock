@@ -1,0 +1,45 @@
+name: Create Minecraft Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies and build
+        run: |
+          npm install
+          npm run build
+
+      - name: Get Version from Manifest
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.header.version | join(".")' manifest.json)
+          echo "VER=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create MCPACK
+        run: |
+          mkdir build
+          cp -r scripts build/
+          cp manifest.json build/
+          cp pack_icon.png build/
+          cd build
+          zip -r "../Void10100Cmd-v${{ steps.get_version.outputs.VER }}.mcpack" *
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: Void10100Cmd-v${{ steps.get_version.outputs.VER }}.mcpack
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
