@@ -23,7 +23,13 @@ server.world.beforeEvents.chatSend.subscribe((eventData: ChatSendBeforeEvent): v
 server.world.afterEvents.playerSpawn.subscribe(({player, initialSpawn}: PlayerSpawnAfterEvent): void => {
     if (initialSpawn) {
         server.system.runTimeout((): void => {
-            player.sendMessage("<Войд> Привет! Я Войд, создатель плагина. Я буду помогать тебе, давая отчёты о результатах использования команд. Напиши !help, чтобы увидеть список всех команд. Кстати, команды, предоставляемые моим плагином, всегда начинаются с восклицательного знака.");
+            let commandCount: number = 0;
+            for (const [key, command] of Object.entries(Commands)) {
+                if (key === command.commandName) {
+                    commandCount++;
+                }
+            }
+            player.sendMessage(`<Войд> Привет! Я Войд, создатель плагина. Я буду помогать тебе, давая отчёты о результатах использования команд. Напиши !help, чтобы увидеть список всех команд. Кстати, команды, предоставляемые моим плагином, всегда начинаются с восклицательного знака. На данный момент в плагине насчитывается ${commandCount} команд!`);
             player.playSound("note.pling");
         }, 50);
     }
