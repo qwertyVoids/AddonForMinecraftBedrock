@@ -10,10 +10,13 @@ export class SetHomeCommand extends Command {
     public readonly aliases: string[] = ["sh", "seth", "shome"];
     public readonly arguments: string[] = ["название"];
 
-    public execute(data: ChatSendBeforeEvent): void {
-        const player: Player = data.sender;
-        const args: string[] = data.message.split(" ");
-        if (args.length < 2) { this.error(player); }
+    public execute(event: ChatSendBeforeEvent, commandName: string): void {
+        const player: Player = event.sender;
+        const args: string[] = event.message.split(" ");
+        if (args.length < 2) {
+            this.error(player, commandName);
+            return;
+        }
 
         const homeName: string = args[1].toLowerCase();
         this.addHome(player, homeName);

@@ -1,6 +1,6 @@
 {
-  "name": "my_addon",
-  "version": "1.21.114-1.1.1-stable",
+  "name": "void10100plugin",
+  "version": "1.21.114-1.1.18-stable",
   "description": "Minecraft Bedrock addon focused on adding new commands with the «!» prefix.",
   "main": "main.ts",
   "scripts": {

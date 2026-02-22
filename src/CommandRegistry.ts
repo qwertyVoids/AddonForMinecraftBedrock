@@ -1,4 +1,4 @@
-import * as CommandInstances from "./Commands/index.commands";
+import * as CommandInstances from "./Commands/index";
 import Command from "./Classes/Command";
 
 export const Commands: Record<string, Command> = {};

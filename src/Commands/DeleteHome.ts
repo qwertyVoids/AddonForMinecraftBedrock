@@ -9,26 +9,31 @@ export class DeleteHomeCommand extends Command {
     public readonly description: string = "Удаляет точку дома";
     protected readonly replyMessage: string = "Точка дома успешно удалена!";
     public readonly adminRequired: boolean = false;
-    public readonly aliases: string[] = ["delhome", "dhome", "deleteh"];
+    public readonly aliases: string[] = ["dh", "delhome", "dhome", "deleteh"];
     public readonly arguments: string[] = ["название"];
 
-    public execute(data: ChatSendBeforeEvent): void {
-        const player: Player = data.sender;
-        const args: string[] = data.message.split(" ");
-        if (args.length < 2) { this.error(player); }
+    public execute(event: ChatSendBeforeEvent, commandName: string): void {
+        const player: Player = event.sender;
+        const args: string[] = event.message.split(" ");
+        if (args.length < 2) {
+            this.error(player, commandName);
+            return;
+        }
 
         const homeName: string = args[1].toLowerCase();
         const homes: Record<string, HomeData> = this.getAllHomes(player);
         if (Object.entries(homes).length >= 1) {
             if (!homes[homeName]) {
-                this.error(player, "Такой точки не существует!");
+                this.error(player, commandName, "Такой точки не существует!");
+                return;
             } else {
                 this.deleteHome(player, homeName);
                 this.reply(player);
             }
         } else {
             const sethomeInstance: SetHomeCommand = new SetHomeCommand();
-            this.error(player, `У вас нету точек дома! Создайте через !${sethomeInstance.commandName}${sethomeInstance.parseArguments()}.`);
+            this.error(player, commandName, `У вас нету точек дома! Создайте через !${sethomeInstance.commandName}${sethomeInstance.parseArguments()}`);
+            return;
         }
     }
 }

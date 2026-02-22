@@ -7,15 +7,15 @@ export class TrollCommand extends Command {
     public readonly description: string = "Подкидывает игрока высоко вверх. Требует ник игрока в качестве аргумента (например, !troll Void10100)";
     protected readonly replyMessage: string = "Вы только что запустили игрока в воздух!";
     public readonly adminRequired: boolean = true;
-    public readonly aliases: string[] = ["t", "troll"];
+    public readonly aliases: string[] = ["t", "tr"];
     public readonly arguments: string[] = ["ник"];
 
-    public execute(data: ChatSendBeforeEvent): void {
-        const input: string = data.message;
-        const player: Player = data.sender;
+    public execute(event: ChatSendBeforeEvent, commandName: string): void {
+        const input: string = event.message;
+        const player: Player = event.sender;
         const startIndex: number = input.indexOf(" ");
         if (startIndex === -1) {
-            this.error(player);
+            this.error(player, commandName);
             return;
         }
         const name: string = input.substring(startIndex + 1);
@@ -27,7 +27,8 @@ export class TrollCommand extends Command {
             });
             this.reply(player);
         } else {
-            this.error(player, "Вы не правильно ввели ник игрока!");
+            this.error(player, commandName, "Вы не правильно ввели ник игрока!");
+            return;
         }
     }
 }

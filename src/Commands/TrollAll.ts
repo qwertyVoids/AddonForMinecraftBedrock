@@ -9,16 +9,16 @@ export class TrollAllCommand extends Command {
     public readonly adminRequired: boolean = true;
     public readonly aliases: string[] = ["ta", "trall"];
 
-    public execute(data: ChatSendBeforeEvent): void {
+    public execute(event: ChatSendBeforeEvent, commandName: string): void {
         const players: Player[] = world.getAllPlayers();
         for (const player of players) {
-            if (player.name !== data.sender.name) {
+            if (player.name !== event.sender.name) {
                 player.addEffect("levitation", 20, {
                     amplifier: 50,
                     showParticles: false
                 });
             }
         }
-        this.reply(data.sender);
+        this.reply(event.sender);
     }
 }

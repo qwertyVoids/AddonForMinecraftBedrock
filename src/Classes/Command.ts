@@ -1,4 +1,4 @@
-import { Player } from "@minecraft/server";
+import { ChatSendBeforeEvent, Player } from "@minecraft/server";
 import HomeData from "../Interfaces/HomeData";
 
 export default abstract class Command {
@@ -11,14 +11,14 @@ export default abstract class Command {
     public readonly aliases: string[] = [];
     public readonly arguments: string[] = [];
 
-    public abstract execute(data: any): void;
+    public abstract execute(event: ChatSendBeforeEvent, commandName: string): void;
 
     protected reply(player: Player): void {
         player.sendMessage(`<Войд> ${this.replyMessage}`);
     }
 
-    protected error(player: Player, message: string | null = null): void {
-        player.sendMessage(message ? `<Войд> ${message}` : `<Войд> Вы не правильно используете команду! Синтаксис: !${this.commandName}${this.parseArguments()}`);
+    protected error(player: Player, commandName: string, message?: string): void {
+        player.sendMessage(message ? `<Войд> ${message}` : `<Войд> Вы не правильно используете команду! Синтаксис: !${commandName}${this.parseArguments()}`);
     }
 
     protected getAllHomes(player: Player): Record<string, HomeData> {
@@ -37,10 +37,7 @@ export default abstract class Command {
 
     protected deleteHome(player: Player, homeName: string): void {
         const homes: Record<string, HomeData> = this.getAllHomes(player);
-        homes[homeName] = {
-            location: null,
-            dimension: null
-        };
+        delete homes[homeName];
         player.setDynamicProperty("void:homes", JSON.stringify(homes));
     }
 

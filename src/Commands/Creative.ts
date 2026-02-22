@@ -9,8 +9,8 @@ export class CreativeCommand extends Command {
     public readonly adminRequired: boolean = true;
     public readonly aliases: string[] = ["c", "gm1"];
 
-    public execute(data: ChatSendBeforeEvent): void {
-        const player: Player = data.sender;
+    public execute(event: ChatSendBeforeEvent, commandName: string): void {
+        const player: Player = event.sender;
         player.setGameMode(GameMode.Creative);
         this.reply(player);
     }

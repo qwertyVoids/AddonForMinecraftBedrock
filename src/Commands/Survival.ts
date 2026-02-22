@@ -7,10 +7,10 @@ export class SurvivalCommand extends Command {
     public readonly description: string = "Активирует режим выживания";
     protected readonly replyMessage: string = "Вы перешли в режим выживания!";
     public readonly adminRequired: boolean = false;
-    public readonly aliases: string[] = ["s", "gm2", "gm0"];
+    public readonly aliases: string[] = ["s", "gm0"];
 
-    public execute(data: ChatSendBeforeEvent): void {
-        const player: Player = data.sender;
+    public execute(event: ChatSendBeforeEvent, commandName: string): void {
+        const player: Player = event.sender;
         player.setGameMode(GameMode.Survival);
         this.reply(player);
     }

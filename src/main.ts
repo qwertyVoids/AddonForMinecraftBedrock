@@ -11,8 +11,7 @@ server.world.beforeEvents.chatSend.subscribe((eventData: server.ChatSendBeforeEv
         const commandData: Command = Commands[commandName.toLowerCase()];
         if (commandData && commandData.execute) {
             server.system.run((): void => {
-                const execute: (data: server.ChatSendBeforeEvent) => void = commandData.execute;
-                execute(eventData);
+                commandData.execute(eventData, commandName);
             });
         } else {
             eventData.sender.sendMessage("<Войд> Чтобы увидеть список команд, напиши !help");

@@ -7,10 +7,10 @@ export class SpectatorCommand extends Command {
     public readonly description: string = "Активирует режим наблюдателя";
     protected readonly replyMessage: string = "Вы перешли в режим наблюдателя!";
     public readonly adminRequired: boolean = true;
-    public readonly aliases: string[] = ["sp", "gm3"];
+    public readonly aliases: string[] = ["sp", "gm3", "spec"];
 
-    public execute(data: ChatSendBeforeEvent): void {
-        const player: Player = data.sender;
+    public execute(event: ChatSendBeforeEvent, commandName: string): void {
+        const player: Player = event.sender;
         player.setGameMode(GameMode.Spectator);
         this.reply(player);
     }

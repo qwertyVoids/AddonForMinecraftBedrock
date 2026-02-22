@@ -9,8 +9,8 @@ export class NightVisionCommand extends Command {
     public readonly adminRequired: boolean = true;
     public readonly aliases: string[] = ["nv", "vision"];
 
-    public execute(data: ChatSendBeforeEvent): void {
-        const player: Player = data.sender;
+    public execute(event: ChatSendBeforeEvent, commandName: string): void {
+        const player: Player = event.sender;
         player.addEffect("night_vision", 20000000, {
             amplifier: 1,
             showParticles: false
