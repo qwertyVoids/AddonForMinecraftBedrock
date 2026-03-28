@@ -1,11 +1,12 @@
 import Command from "../Classes/Command";
+import CommandRegistry from "../Registries/CommandRegistry";
 import { ChatSendBeforeEvent, Player, world } from "@minecraft/server";
 
-export class TrollCommand extends Command {
+class TrollCommand extends Command {
     public readonly name: string = "Troll";
     public readonly commandName: string = "troll";
-    public readonly description: string = "Подкидывает игрока высоко вверх. Требует ник игрока в качестве аргумента (например, !troll Void10100)";
-    protected readonly replyMessage: string = "Вы только что запустили игрока в воздух!";
+    public readonly description: string = "Подкидывает игрока высоко вверх";
+    public readonly replyMessage: string = "Вы только что запустили игрока в воздух!";
     public readonly adminRequired: boolean = true;
     public readonly aliases: string[] = ["t", "tr"];
     public readonly arguments: string[] = ["ник"];
@@ -32,3 +33,5 @@ export class TrollCommand extends Command {
         }
     }
 }
+
+CommandRegistry.getInstance().register(new TrollCommand());

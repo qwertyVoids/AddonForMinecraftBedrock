@@ -1,14 +1,15 @@
-import { world, Player, ChatSendBeforeEvent, Vector3 } from "@minecraft/server";
+import { ChatSendBeforeEvent, Player, Vector3, world } from "@minecraft/server";
 import Command from "../Classes/Command";
-import { SetHomeCommand } from "./SetHome";
+import CommandRegistry from "../Registries/CommandRegistry";
 import HomeData from "../Interfaces/HomeData";
-import { HomeListCommand } from "./HomeList";
+import DataManager from "../Managers/DataManager";
+import PropertyKeys from "../Enumerations/PropertyKeys";
 
-export class HomeCommand extends Command {
+class HomeCommand extends Command {
     public readonly name: string = "Home";
     public readonly commandName: string = "home";
-    public readonly description: string = "Телепортирует в точку дома";
-    protected readonly replyMessage: string = "Вы телепортированы в точку дома!";
+    public readonly description: string = "Телепортирует вас в точку дома";
+    public readonly replyMessage: string = "Вы телепортированы в точку дома!";
     public readonly adminRequired: boolean = false;
     public readonly aliases: string[] = ["h", "tph", "tphome", "teleporthome"];
     public readonly arguments: string[] = ["название"];
@@ -17,24 +18,23 @@ export class HomeCommand extends Command {
         const player: Player = event.sender;
         const args: string[] = event.message.split(" ");
         if (args.length < 2) {
-            this.error(player, commandName);
-            return;
+            return this.error(player, commandName);
         }
 
         const homeName: string = args[1].toLowerCase();
-        const homes: Record<string, HomeData> = this.getAllHomes(player);
+        const homes: Record<string, HomeData> = DataManager.getJSONData(player, PropertyKeys.Homes);
         if (Object.keys(homes).length >= 1) {
             if (!homes[homeName]) {
-                this.error(player, commandName, `Такой точки не существует! Проверь все точки через !${new HomeListCommand().commandName}`);
-                return;
+                return this.error(player, commandName, `Такой точки не существует! Проверь все точки через !${CommandRegistry.getInstance().getCommand("homelist")?.commandName}`);
             }
+
             const home: HomeData = homes[homeName];
             player.teleport(home.location as Vector3, { dimension: world.getDimension(home.dimension as string) });
             this.reply(player);
         } else {
-            const sethomeInstance: SetHomeCommand = new SetHomeCommand();
-            this.error(player, commandName, `У вас нету точек дома! Создайте через !${sethomeInstance.commandName}${sethomeInstance.parseArguments()}`);
-            return;
+            return this.error(player, commandName, `У вас нету точек дома! Создайте через !${CommandRegistry.getInstance().getCommand("sethome")?.commandName}${CommandRegistry.getInstance().getCommand("sethome")?.parseArguments()}`);
         }
     }
 }
+
+CommandRegistry.getInstance().register(new HomeCommand());

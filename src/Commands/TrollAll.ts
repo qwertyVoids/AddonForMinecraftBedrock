@@ -1,11 +1,12 @@
 import Command from "../Classes/Command";
+import CommandRegistry from "../Registries/CommandRegistry";
 import { ChatSendBeforeEvent, Player, world } from "@minecraft/server";
 
-export class TrollAllCommand extends Command {
+class TrollAllCommand extends Command {
     public readonly name: string = "Troll All";
     public readonly commandName: string = "trollall";
     public readonly description: string = "Подкидывает всех игроков высоко вверх, кроме вас самого";
-    protected readonly replyMessage: string = "Вы только что запустили всех игроков в воздух!";
+    public readonly replyMessage: string = "Вы только что запустили всех игроков в воздух!";
     public readonly adminRequired: boolean = true;
     public readonly aliases: string[] = ["ta", "trall"];
 
@@ -22,3 +23,5 @@ export class TrollAllCommand extends Command {
         this.reply(event.sender);
     }
 }
+
+CommandRegistry.getInstance().register(new TrollAllCommand());

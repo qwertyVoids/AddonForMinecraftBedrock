@@ -1,13 +1,15 @@
-import { Player, ChatSendBeforeEvent } from "@minecraft/server";
+import { ChatSendBeforeEvent, Player } from "@minecraft/server";
 import Command from "../Classes/Command";
+import CommandRegistry from "../Registries/CommandRegistry";
 import HomeData from "../Interfaces/HomeData";
-import { SetHomeCommand } from "./SetHome";
+import DataManager from "../Managers/DataManager";
+import PropertyKeys from "../Enumerations/PropertyKeys";
 
-export class DeleteHomeCommand extends Command {
+class DeleteHomeCommand extends Command {
     public readonly name: string = "Delete Home";
     public readonly commandName: string = "deletehome";
     public readonly description: string = "Удаляет точку дома";
-    protected readonly replyMessage: string = "Точка дома успешно удалена!";
+    public readonly replyMessage: string = "Точка дома успешно удалена!";
     public readonly adminRequired: boolean = false;
     public readonly aliases: string[] = ["dh", "delhome", "dhome", "deleteh"];
     public readonly arguments: string[] = ["название"];
@@ -21,19 +23,23 @@ export class DeleteHomeCommand extends Command {
         }
 
         const homeName: string = args[1].toLowerCase();
-        const homes: Record<string, HomeData> = this.getAllHomes(player);
+        const homes: Record<string, HomeData> = DataManager.getJSONData(player, PropertyKeys.Homes);
         if (Object.entries(homes).length >= 1) {
             if (!homes[homeName]) {
-                this.error(player, commandName, "Такой точки не существует!");
+                this.error(player, commandName, `Такой точки не существует! Проверь все точки через !${CommandRegistry.getInstance().getCommand("homelist")?.commandName}`);
                 return;
             } else {
-                this.deleteHome(player, homeName);
+                DataManager.updateJSONData<Record<string, HomeData>>(player, PropertyKeys.Homes, (homes: Record<string, HomeData>): Record<string, HomeData> => {
+                    delete homes[homeName];
+                    return homes;
+                });
                 this.reply(player);
             }
         } else {
-            const sethomeInstance: SetHomeCommand = new SetHomeCommand();
-            this.error(player, commandName, `У вас нету точек дома! Создайте через !${sethomeInstance.commandName}${sethomeInstance.parseArguments()}`);
+            this.error(player, commandName, `У вас нету точек дома! Создайте через !${CommandRegistry.getInstance().getCommand("sethome")?.commandName}${CommandRegistry.getInstance().getCommand("sethome")?.parseArguments()}`);
             return;
         }
     }
 }
+
+CommandRegistry.getInstance().register(new DeleteHomeCommand());

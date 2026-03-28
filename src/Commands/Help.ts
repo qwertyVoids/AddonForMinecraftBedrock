@@ -1,25 +1,22 @@
 import Command from "../Classes/Command";
-import { ChatSendBeforeEvent } from "@minecraft/server";
-import { Commands } from "../CommandRegistry";
-import { AliasesCommand } from "./Aliases";
+import CommandRegistry from "../Registries/CommandRegistry";
+import { ChatSendBeforeEvent, Player } from "@minecraft/server";
 
-export class HelpCommand extends Command {
+class HelpCommand extends Command {
     public readonly name: string = "Help";
     public readonly commandName: string = "help";
     public readonly description: string = "Выводит все команды, предоставляемые плагином";
-    protected readonly replyMessage: string = "";
     public readonly adminRequired: boolean = false;
     public readonly aliases: string[] = ["sos", "commands", "command", "cmds", "cmd"];
 
     public execute(event: ChatSendBeforeEvent, commandName: string): void {
-        let commandList: string = "";
-        let commandCount: number = 0;
-        for (const [key, instance] of Object.entries(Commands)) {
-            if (key === instance.commandName) {
-                commandList += `\n\n!${key}: ${instance.description};`;
-                commandCount++;
-            }
+        const player: Player = event.sender;
+        const commandList: string = CommandRegistry.getInstance().getCache("help_text");
+        if (!commandList) {
+            return this.error(player, commandName, "Команды не найдены. Похоже, проблема с инициализацией. Пожалуйста, перезайдите!");
         }
-        event.sender.sendMessage(`<Войд> Список команд:${commandList}\nВсего команд: ${commandCount}.\nПопробуйте !${new AliasesCommand().commandName}, чтобы увидеть список всех псевдонимов!`);
+        player.sendMessage(`<Войд> Список команд:${commandList}\nВсего команд: ${CommandRegistry.getInstance().getCommandCount()}.\nПопробуйте !${CommandRegistry.getInstance().getCommand("aliases")?.commandName}, чтобы увидеть список всех псевдонимов!`);
     }
 }
+
+CommandRegistry.getInstance().register(new HelpCommand());

@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies and build
         run: |
           npm install
-          npm run build
+          npm run build:prod
 
       - name: Get Version from Manifest
         id: get_version

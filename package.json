@@ -1,11 +1,11 @@
 {
   "name": "void10100plugin",
-  "version": "1.21.114-1.1.18-stable",
+  "version": "1.21.114-1.3.38-stable",
   "description": "Minecraft Bedrock addon focused on adding new commands with the «!» prefix.",
-  "main": "main.ts",
+  "main": "src/main.ts",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w"
+    "build:prod": "webpack --env mode=production",
+    "build:dev": "webpack --env mode=development"
   },
   "repository": {
     "type": "git",
@@ -13,16 +13,23 @@
   },
   "keywords": [],
   "author": "Void10100",
-  "license": "ISC",
-  "type": "commonjs",
+  "license": "MIT",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/qwertyVoids/AddonForMinecraftBedrock/issues"
   },
   "homepage": "https://github.com/qwertyVoids/AddonForMinecraftBedrock#readme",
-  "devDependencies": {
-    "typescript": "^5.9.3"
-  },
   "dependencies": {
     "@minecraft/server": "^2.3.0-beta.1.21.114-stable"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.0",
+    "@types/webpack": "^5.28.5",
+    "@types/webpack-env": "^1.18.8",
+    "ts-loader": "^9.5.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "webpack": "^5.105.2",
+    "webpack-cli": "^6.0.1"
   }
 }

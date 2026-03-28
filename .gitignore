@@ -1,4 +1,7 @@
 node_modules/
+dist/
 scripts/
 .idea/
-.git/
+*.log
+Thumbs.db
+main.js.map

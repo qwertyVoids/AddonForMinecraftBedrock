@@ -1,24 +1,24 @@
 {
     "format_version": 2,
     "header": {
-      "description": "§eКоманды от §cВойда §f| §aВерсия: 1.2.0",
-      "name": "Commands by Void10100",
-      "uuid":"b2a5b342-cb47-4171-93a3-4d7c5a8e417e",
-      "version": [1, 2, 0],
+      "description": "§eПродвинутые команды от §cВойда §f| §aВерсия: 1.3.0",
+      "name": "Void10100 Commands",
+      "uuid":"b2a5b342-cb47-4171-93a3-4d7c0a8e417e",
+      "version": [1, 3, 0],
       "min_engine_version": [1, 21, 0]
     },
     "modules": [
         {
             "description": "Данные аддона",
             "type": "data",
-            "uuid": "542367a1-e684-46cc-a464-b3d0588912ac",
-            "version": [1, 2, 0]
+            "uuid": "542367b1-e694-46c4-b864-b3d0188912ac",
+            "version": [1, 3, 0]
         },
         {
             "description": "Скриптовый движок",
             "type": "script",
-            "uuid": "97198909-9332-46b1-b1c5-03e941404778",
-            "version": [1, 2, 0],
+            "uuid": "97168959-9332-46b1-b125-03e941404778",
+            "version": [1, 3, 0],
             "entry": "scripts/main.js"
         }
     ],
