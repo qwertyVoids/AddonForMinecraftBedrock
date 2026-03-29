@@ -19,7 +19,7 @@ class HomeListCommand extends Command {
         if (Object.keys(homeList).length >= 1) {
             player.sendMessage(`<Войд> Список точек домов:\n${homeList}\nВсего точек: ${Object.keys(homes).length}.`);
         } else {
-            return this.error(player, commandName, `У вас нету точек дома! Создайте через !${CommandRegistry.getInstance().getCommand("sethome")?.commandName}${CommandRegistry.getInstance().getCommand("sethome")?.parseArguments()}`);
+            return this.error(player, commandName, `У вас нету точек дома! Создайте через !${CommandRegistry.getInstance().getCommand("sethome")?.commandName}${CommandRegistry.getInstance().getCommand("sethome")?.parseArguments()}.`);
         }
     }
 }

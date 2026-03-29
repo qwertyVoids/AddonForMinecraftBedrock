@@ -26,7 +26,7 @@ class DeleteHomeCommand extends Command {
         const homes: Record<string, HomeData> = DataManager.getJSONData(player, PropertyKeys.Homes);
         if (Object.entries(homes).length >= 1) {
             if (!homes[homeName]) {
-                this.error(player, commandName, `Такой точки не существует! Проверь все точки через !${CommandRegistry.getInstance().getCommand("homelist")?.commandName}`);
+                this.error(player, commandName, `Такой точки не существует! Проверь все точки через !${CommandRegistry.getInstance().getCommand("homelist")?.commandName}.`);
                 return;
             } else {
                 DataManager.updateJSONData<Record<string, HomeData>>(player, PropertyKeys.Homes, (homes: Record<string, HomeData>): Record<string, HomeData> => {
@@ -36,7 +36,7 @@ class DeleteHomeCommand extends Command {
                 this.reply(player);
             }
         } else {
-            this.error(player, commandName, `У вас нету точек дома! Создайте через !${CommandRegistry.getInstance().getCommand("sethome")?.commandName}${CommandRegistry.getInstance().getCommand("sethome")?.parseArguments()}`);
+            this.error(player, commandName, `У вас нету точек дома! Создайте через !${CommandRegistry.getInstance().getCommand("sethome")?.commandName}${CommandRegistry.getInstance().getCommand("sethome")?.parseArguments()}.`);
             return;
         }
     }

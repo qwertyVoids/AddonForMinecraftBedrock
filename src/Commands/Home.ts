@@ -25,14 +25,14 @@ class HomeCommand extends Command {
         const homes: Record<string, HomeData> = DataManager.getJSONData(player, PropertyKeys.Homes);
         if (Object.keys(homes).length >= 1) {
             if (!homes[homeName]) {
-                return this.error(player, commandName, `Такой точки не существует! Проверь все точки через !${CommandRegistry.getInstance().getCommand("homelist")?.commandName}`);
+                return this.error(player, commandName, `Такой точки не существует! Проверь все точки через !${CommandRegistry.getInstance().getCommand("homelist")?.commandName}.`);
             }
 
             const home: HomeData = homes[homeName];
             player.teleport(home.location as Vector3, { dimension: world.getDimension(home.dimension as string) });
             this.reply(player);
         } else {
-            return this.error(player, commandName, `У вас нету точек дома! Создайте через !${CommandRegistry.getInstance().getCommand("sethome")?.commandName}${CommandRegistry.getInstance().getCommand("sethome")?.parseArguments()}`);
+            return this.error(player, commandName, `У вас нету точек дома! Создайте через !${CommandRegistry.getInstance().getCommand("sethome")?.commandName}${CommandRegistry.getInstance().getCommand("sethome")?.parseArguments()}.`);
         }
     }
 }
